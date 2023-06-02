@@ -41,6 +41,7 @@ function App() {
             setHtmlData(result.data);
             console.log(result.data);
             console.log(htmlData);
+            setTableTitle("ABC Table");
           },
         }
       );
@@ -48,7 +49,6 @@ function App() {
       setPopUp(
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vSsajnYfZeMR7uLMJYkPfPQcr-Whhf2e394DX1FD4GEgQGGY4fg1Pyjy11eQ8pOwO1TfGbVa_35Cj-w/pubhtml"
       );
-      setTableTitle("ABC Table");
     } else if (e == "def") {
       console.log("def");
       axios
@@ -65,6 +65,7 @@ function App() {
                 setHtmlData(result.data);
                 console.log(result.data);
                 console.log(htmlData);
+                setTableTitle("DEF Table");
               },
             }
           );
@@ -72,7 +73,6 @@ function App() {
       setPopUp(
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vSsajnYfZeMR7uLMJYkPfPQcr-Whhf2e394DX1FD4GEgQGGY4fg1Pyjy11eQ8pOwO1TfGbVa_35Cj-w/pubhtml"
       );
-      setTableTitle("DEF Table");
     } else {
       Papa.parse(
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vSsajnYfZeMR7uLMJYkPfPQcr-Whhf2e394DX1FD4GEgQGGY4fg1Pyjy11eQ8pOwO1TfGbVa_35Cj-w/pub?gid=1882971444&single=true&output=csv",
@@ -106,7 +106,7 @@ function App() {
   // }, []);
   return (
     <div className="App">
-      History Table
+      <h3>History Table</h3>
       <div className="container">
         <div className="buttons">
           <button
