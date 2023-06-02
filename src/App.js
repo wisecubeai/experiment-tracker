@@ -107,8 +107,8 @@ function App() {
   return (
     <div className="App">
       <h3>History Table</h3>
-      <div className="container">
-        <div className="buttons">
+
+      {/* <div className="buttons">
           <button
             style={{
               paddingBottom: "30px",
@@ -139,57 +139,73 @@ function App() {
           >
             Fetch GHI
           </button>
-        </div>
+        </div> */}
 
-        <div className="iframe">
-          {history != "" && (
-            <table style={{ border: "1px solid black" }}>
-              <thead>
-                <th>Run Name </th>
-                <th>Test data name</th>
-                <th>Date</th>
-                <th>Number of questions</th>
-                <th>Number w/ Valid SPARQL</th>
-                <th>Number w/ Reasonable Results</th>
-                <th>Score name</th>
-                <th>Score</th>
-                <th>Gdrive URL</th>
-              </thead>
+      <div className="iframe">
+        {history != "" && (
+          <table style={{ border: "1px solid black" }}>
+            <thead>
+              <th>Run Name </th>
+              <th>Test data name</th>
+              <th>Date</th>
+              <th>Number of questions</th>
+              <th>Number w/ Valid SPARQL</th>
+              <th>Number w/ Reasonable Results</th>
+              <th>Score name</th>
+              <th>Score</th>
+              <th>Gdrive URL</th>
+            </thead>
 
-              {history?.map((item, idx) => {
-                if (idx > 0) {
-                  return (
-                    <tr style={{ cursor: "pointer" }}>
-                      <td>{item[0]}</td>
-                      <td>{item[1]}</td>
-                      <td>{item[2]}</td>
-                      <td>{item[3]}</td>
-                      <td>{item[4]}</td>
-                      <td>{item[5]}</td>
-                      <td>{item[6]}</td>
-                      <td>{item[7]}</td>
-                      <td>
+            {history?.map((item, idx) => {
+              if (idx > 0) {
+                return (
+                  <tr style={{ cursor: "pointer" }}>
+                    <td>{item[0]}</td>
+                    <td>{item[1]}</td>
+                    <td>{item[2]}</td>
+                    <td>{item[3]}</td>
+                    <td>{item[4]}</td>
+                    <td>{item[5]}</td>
+                    <td>{item[6]}</td>
+                    <td>{item[7]}</td>
+                    <td>
+                      {idx == 1 ? (
                         <button
                           className="btn"
                           onClick={() => handleClick("abc")}
                         >
                           Fetch ABC
                         </button>
-                      </td>
-                    </tr>
-                  );
-                }
-              })}
-            </table>
-          )}
-          {/* <iframe
+                      ) : idx == 2 ? (
+                        <button
+                          className="btn"
+                          onClick={() => handleClick("def")}
+                        >
+                          Fetch DEF
+                        </button>
+                      ) : (
+                        <button
+                          className="btn"
+                          onClick={() => handleClick("GHI")}
+                        >
+                          Fetch GHI
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              }
+            })}
+          </table>
+        )}
+        {/* <iframe
             src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8NgsDs1G5Y57JAWQpmYMlOqIY8Pzi8otdHEKEt_2u9NCcGP1H-x2YFavvgOW0-WvBq63HxjloR1Nk/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"
             width="100%"
             title="description"
             style={{ border: "1px solid black" }}
           ></iframe> */}
-        </div>
       </div>
+
       {/* {parse(htmlData)} */}
       {/* <div dangerouslySetInnerHTML={{ __html: htmlData }}></div> */}
       {/* <div className="secondPop">
