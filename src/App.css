@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -35,4 +36,27 @@
   to {
     transform: rotate(360deg);
   }
+}
+.container{
+  display: flex;
+  
+  gap: 10px;
+}
+.buttons{
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  flex: 1
+}
+.iframe{
+  flex: 7
+}
+.secondPop{
+  display: flex;
+  flex-direction: column;
+}
+td{
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
 }
