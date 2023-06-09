@@ -37,10 +37,10 @@ function App() {
         setHtmlData(result.data);
         console.log(result.data);
         console.log(htmlData);
+        setTableTitle(title);
       },
     });
     console.log(e);
-    setTableTitle(title);
   }
   function handleClick(e) {
     if (e == "abc") {
