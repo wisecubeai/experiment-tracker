@@ -28,6 +28,20 @@ function App() {
       }
     );
   }, []);
+  function handleClick2(e, title) {
+    console.log(e);
+    Papa.parse(e, {
+      download: true,
+      delimiter: ",",
+      complete: (result) => {
+        setHtmlData(result.data);
+        console.log(result.data);
+        console.log(htmlData);
+      },
+    });
+    console.log(e);
+    setTableTitle(title);
+  }
   function handleClick(e) {
     if (e == "abc") {
       console.log("abc");
@@ -143,7 +157,7 @@ function App() {
 
       <div className="iframe">
         {history != "" && (
-          <table style={{ border: "1px solid black" }}>
+          <table style={{ border: "1px solid black", padding: "5px" }}>
             <thead>
               <th>Run Name </th>
               <th>Test data name</th>
@@ -169,6 +183,11 @@ function App() {
                     <td>{item[6]}</td>
                     <td>{item[7]}</td>
                     <td>
+                      <button onClick={() => handleClick2(item[8], item[0])}>
+                        {item[0]}
+                      </button>
+                    </td>
+                    {/* <td>
                       {idx == 1 ? (
                         <button
                           className="btn"
@@ -191,7 +210,7 @@ function App() {
                           Fetch GHI
                         </button>
                       )}
-                    </td>
+                    </td> */}
                   </tr>
                 );
               }
@@ -237,19 +256,19 @@ function App() {
           {htmlData?.map((item, idx) => {
             if (idx > 0) {
               return (
-                <Tooltip title={item}>
-                  <tr style={{ cursor: "pointer" }}>
-                    <td>{item[0]}</td>
-                    <td>{item[1]}</td>
-                    <td>{item[2]}</td>
-                    <td>{item[3]}</td>
-                    <td>{item[4]}</td>
-                    <td>{item[5]}</td>
-                    <td>{item[6]}</td>
-                    <td>{item[7]}</td>
-                    <td>{item[8]}</td>
-                  </tr>
-                </Tooltip>
+                // <Tooltip title={item}>
+                <tr style={{ cursor: "pointer" }}>
+                  <td>{item[0]}</td>
+                  <td>{item[1]}</td>
+                  <td>{item[2]}</td>
+                  <td>{item[3]}</td>
+                  <td>{item[4]}</td>
+                  <td>{item[5]}</td>
+                  <td>{item[6]}</td>
+                  <td>{item[7]}</td>
+                  <td>{item[8]}</td>
+                </tr>
+                // </Tooltip>
               );
             }
           })}
