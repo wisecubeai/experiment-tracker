@@ -167,14 +167,17 @@ function App() {
               <th>Number w/ Reasonable Results</th>
               <th>Score name</th>
               <th>Score</th>
-              <th>Gdrive URL</th>
             </thead>
 
             {history?.map((item, idx) => {
               if (idx > 0) {
                 return (
                   <tr style={{ cursor: "pointer" }}>
-                    <td>{item[0]}</td>
+                    <td>
+                      <button onClick={() => handleClick2(item[8], item[0])}>
+                        {item[0]}
+                      </button>
+                    </td>
                     <td>{item[1]}</td>
                     <td>{item[2]}</td>
                     <td>{item[3]}</td>
@@ -182,11 +185,7 @@ function App() {
                     <td>{item[5]}</td>
                     <td>{item[6]}</td>
                     <td>{item[7]}</td>
-                    <td>
-                      <button onClick={() => handleClick2(item[8], item[0])}>
-                        {item[0]}
-                      </button>
-                    </td>
+
                     {/* <td>
                       {idx == 1 ? (
                         <button
