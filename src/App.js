@@ -14,6 +14,128 @@ function App() {
   const [history, setHistory] = useState([]);
   const [popUp, setPopUp] = useState("");
   const [tableTitle, setTableTitle] = useState("");
+  const [currentSort, setCurrentSort] = useState("Run name");
+
+  useEffect(() => {
+    console.log("sort was changed");
+    if (currentSort == "Run name") {
+      console.log("current sort is in Run name");
+      let newHistory = [...history];
+      let first = newHistory.shift();
+      console.log(newHistory);
+      newHistory.sort((a, b) => {
+        if (a[0] > b[0]) {
+          return 1;
+        } else if (b[0] > a[0]) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      newHistory.unshift(first);
+      setHistory(newHistory);
+    } else if (currentSort == "Number of questions") {
+      console.log("current sort is in number of question");
+      let newHistory = [...history];
+      let first = newHistory.shift();
+      console.log(newHistory);
+      newHistory.sort((a, b) => {
+        if (Number(a[3]) < Number(b[3])) {
+          return 1;
+        } else if (Number(b[3]) < Number(a[3])) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      newHistory.unshift(first);
+      setHistory(newHistory);
+    } else if (currentSort == "Number w/ Valid SPARQL") {
+      console.log("current sort is in Number w/ Valid SPARQL");
+      let newHistory = [...history];
+      let first = newHistory.shift();
+      console.log(newHistory);
+      newHistory.sort((a, b) => {
+        if (Number(a[4]) < Number(b[4])) {
+          return 1;
+        } else if (Number(b[4]) < Number(a[4])) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      newHistory.unshift(first);
+      setHistory(newHistory);
+      console.log(history);
+    } else if (currentSort == "Number w/ Reasonable Results") {
+      console.log("current sort is in Number w/ Reasonable Results");
+      let newHistory = [...history];
+      let first = newHistory.shift();
+      console.log(newHistory);
+      newHistory.sort((a, b) => {
+        if (Number(a[5]) < Number(b[5])) {
+          return 1;
+        } else if (Number(b[5]) > Number(a[5])) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      newHistory.unshift(first);
+      setHistory(newHistory);
+    } else if (currentSort == "Score") {
+      console.log("current sort is in Score");
+      let newHistory = [...history];
+      let first = newHistory.shift();
+      console.log(newHistory);
+      newHistory.sort((a, b) => {
+        if (a[7] < b[7]) {
+          return 1;
+        } else if (b[7] < a[7]) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      newHistory.unshift(first);
+      setHistory(newHistory);
+    }
+  }, [currentSort]);
+  const sortTypes = {
+    up: {
+      class: "sort-up",
+      fn: (a, b) => a["Number of questions"] - b["Number of question"],
+    },
+    down: {
+      class: "sort-down",
+      fn: (a, b) => b["Number of questions"] - a["Number of question"],
+    },
+    default: {
+      class: "sort",
+      fn: (a, b) => a,
+    },
+  };
+  function sortData() {
+    let sortedItems = [...htmlData];
+    sortedItems.sort((a, b) => {
+      if (a[0] > b[0]) {
+        return -1;
+      }
+    });
+  }
+  function onSortChange() {
+    const { currentSort } = currentSort;
+    let nextSort;
+
+    if (currentSort === "down") nextSort = "up";
+    else if (currentSort === "up") nextSort = "default";
+    else if (currentSort === "default") nextSort = "down";
+
+    setCurrentSort(nextSort);
+  }
+  const handleChange = (e) => {
+    console.log(e);
+  };
   useEffect(() => {
     Papa.parse(
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8NgsDs1G5Y57JAWQpmYMlOqIY8Pzi8otdHEKEt_2u9NCcGP1H-x2YFavvgOW0-WvBq63HxjloR1Nk/pub?gid=0&single=true&output=csv",
@@ -120,7 +242,7 @@ function App() {
   // }, []);
   return (
     <div className="App">
-      <h3>History Table</h3>
+      <h3 style={{ paddingBottom: "50px" }}>History Table</h3>
 
       {/* <div className="buttons">
           <button
@@ -154,39 +276,56 @@ function App() {
             Fetch GHI
           </button>
         </div> */}
-
       <div className="iframe">
         {history != "" && (
-          <table style={{ border: "1px solid black", padding: "5px" }}>
-            <thead>
-              <th>Run Name </th>
-              <th>Test data name</th>
-              <th>Date</th>
-              <th>Number of questions</th>
-              <th>Number w/ Valid SPARQL</th>
-              <th>Number w/ Reasonable Results</th>
-              <th>Score name</th>
-              <th>Score</th>
-            </thead>
+          <>
+            <div className="resultsort">
+              <h4>Sort</h4>
+              <select
+                className="selectMenu"
+                onChange={(e) => setCurrentSort(e.target.value)}
+              >
+                {history[0].map((item, idex) => {
+                  if (item != "Gdrive URL")
+                    return (
+                      <>
+                        <option key={item}>{item}</option>
+                      </>
+                    );
+                })}
+              </select>
+            </div>
 
-            {history?.map((item, idx) => {
-              if (idx > 0) {
-                return (
-                  <tr style={{ cursor: "pointer" }}>
-                    <td>
-                      <button onClick={() => handleClick2(item[8], item[0])}>
-                        {item[0]}
-                      </button>
-                    </td>
-                    <td>{item[1]}</td>
-                    <td>{item[2]}</td>
-                    <td>{item[3]}</td>
-                    <td>{item[4]}</td>
-                    <td>{item[5]}</td>
-                    <td>{item[6]}</td>
-                    <td>{item[7]}</td>
+            <table style={{ border: "1px solid black", padding: "5px" }}>
+              <thead>
+                <th>Run Name </th>
+                <th>Test data name</th>
+                <th>Date</th>
+                <th>Number of questions</th>
+                <th>Number w/ Valid SPARQL</th>
+                <th>Number w/ Reasonable Results</th>
+                <th>Score name</th>
+                <th>Score</th>
+              </thead>
 
-                    {/* <td>
+              {history?.map((item, idx) => {
+                if (idx > 0) {
+                  return (
+                    <tr style={{ cursor: "pointer" }}>
+                      <td>
+                        <button onClick={() => handleClick2(item[8], item[0])}>
+                          {item[0]}
+                        </button>
+                      </td>
+                      <td>{item[1]}</td>
+                      <td>{item[2]}</td>
+                      <td>{item[3]}</td>
+                      <td>{item[4]}</td>
+                      <td>{item[5]}</td>
+                      <td>{item[6]}</td>
+                      <td>{item[7]}</td>
+
+                      {/* <td>
                       {idx == 1 ? (
                         <button
                           className="btn"
@@ -210,11 +349,12 @@ function App() {
                         </button>
                       )}
                     </td> */}
-                  </tr>
-                );
-              }
-            })}
-          </table>
+                    </tr>
+                  );
+                }
+              })}
+            </table>
+          </>
         )}
         {/* <iframe
             src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8NgsDs1G5Y57JAWQpmYMlOqIY8Pzi8otdHEKEt_2u9NCcGP1H-x2YFavvgOW0-WvBq63HxjloR1Nk/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"
@@ -223,7 +363,6 @@ function App() {
             style={{ border: "1px solid black" }}
           ></iframe> */}
       </div>
-
       {/* {parse(htmlData)} */}
       {/* <div dangerouslySetInnerHTML={{ __html: htmlData }}></div> */}
       {/* <div className="secondPop">

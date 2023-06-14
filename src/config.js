@@ -1,4 +1,1 @@
-let results = [];
-let ABC = [];
-let DEF = [];
-let GHI = [];
+let fields = ["Run name", "Score", "Sparqldata"]; // enter fields in here
