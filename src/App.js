@@ -298,14 +298,10 @@ function App() {
 
             <table style={{ border: "1px solid black", padding: "5px" }}>
               <thead>
-                <th>Run Name </th>
-                <th>Test data name</th>
-                <th>Date</th>
-                <th>Number of questions</th>
-                <th>Number w/ Valid SPARQL</th>
-                <th>Number w/ Reasonable Results</th>
-                <th>Score name</th>
-                <th>Score</th>
+                {console.log(history)}
+                {history[0].map((item) => {
+                  if (item != "Gdrive URL") return <th>{item}</th>;
+                })}
               </thead>
 
               {history?.map((item, idx) => {
@@ -380,15 +376,9 @@ function App() {
       {htmlData != "" && (
         <table style={{ border: "1px solid black" }}>
           <thead>
-            <th>ID </th>
-            <th>Question</th>
-            <th>SBN</th>
-            <th>SBN comments</th>
-            <th>SPARQL</th>
-            <th>SPARQL comments</th>
-            <th>Exact answer</th>
-            <th>Result</th>
-            <th>Result comments</th>
+            {htmlData[0].map((item) => {
+              return <th>{item}</th>;
+            })}
           </thead>
 
           {htmlData?.map((item, idx) => {
