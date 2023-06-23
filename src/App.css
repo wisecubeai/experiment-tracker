@@ -33,6 +33,8 @@
 .iframe{
   flex: 7;
   position: relative;
+  margin: auto;
+  width: 50%;
 }
 .secondPop{
   display: flex;
@@ -43,13 +45,21 @@ td{
   text-align: left;
   padding: 8px;
 }
+
 .resultsort{
   
   position: absolute;
-  right: 205px;
-  top: -60px;
+  right: 121px;
+  top: -24px;
   display: flex;
   
  
 }
+.htmlData{
+  margin: auto;
+  width: 1000px;
+}
 
+.secondselect{
+  padding-left: 675px;
+}

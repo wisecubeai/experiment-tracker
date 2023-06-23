@@ -18,8 +18,8 @@ function App() {
 
   useEffect(() => {
     console.log("sort was changed");
-    if (currentSort == "Run name") {
-      console.log("current sort is in Run name");
+    if (currentSort == "Run Name") {
+      console.log("current sort is in Run Name");
       let newHistory = [...history];
       let first = newHistory.shift();
       console.log(newHistory);
@@ -30,6 +30,33 @@ function App() {
           return -1;
         } else {
           return 0;
+        }
+      });
+      newHistory.unshift(first);
+      setHistory(newHistory);
+    } else if (currentSort == "Run Date") {
+      console.log("current sort is in run date");
+      let newHistory = [...history];
+      let first = newHistory.shift();
+      console.log(newHistory);
+      newHistory.sort(function (a, b) {
+        let split4a = a[1].split("/");
+        console.log(split4a);
+        let split4b = b[1].split("/");
+
+        if (split4a[1].length == 1) {
+          split4a[1] = "0" + split4a[1];
+        }
+        if (split4b[1].length == 1) {
+          split4b[1] = "0" + split4b[1];
+        }
+
+        var dateA = new Date(a[1]),
+          dateB = new Date(b[1]);
+        if (dateB > dateA) {
+          return -1;
+        } else {
+          return 1;
         }
       });
       newHistory.unshift(first);
@@ -89,9 +116,9 @@ function App() {
       let first = newHistory.shift();
       console.log(newHistory);
       newHistory.sort((a, b) => {
-        if (a[7] < b[7]) {
+        if (a[3] < b[3]) {
           return 1;
-        } else if (b[7] < a[7]) {
+        } else if (b[3] < a[3]) {
           return -1;
         } else {
           return 0;
@@ -137,8 +164,9 @@ function App() {
     console.log(e);
   };
   useEffect(() => {
+    // https://docs.google.com/spreadsheets/d/e/2PACX-1vT8NgsDs1G5Y57JAWQpmYMlOqIY8Pzi8otdHEKEt_2u9NCcGP1H-x2YFavvgOW0-WvBq63HxjloR1Nk/pub?gid=0&single=true&output=csv
     Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8NgsDs1G5Y57JAWQpmYMlOqIY8Pzi8otdHEKEt_2u9NCcGP1H-x2YFavvgOW0-WvBq63HxjloR1Nk/pub?gid=0&single=true&output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQJXRBvOng-beOsnaTG4Ak4YFDVaacwLx0_Cl3t5g_1L7Q_GL3VDz2ghRgKcwkG1hQJDtSQm5fIBvXv/pub?output=csv",
       {
         download: true,
         delimiter: ",",
@@ -280,8 +308,8 @@ function App() {
         {history != "" && (
           <>
             <div className="resultsort">
-              <h4>Sort</h4>
               <select
+                style={{ height: "25px" }}
                 className="selectMenu"
                 onChange={(e) => setCurrentSort(e.target.value)}
               >
@@ -299,6 +327,7 @@ function App() {
             <table style={{ border: "1px solid black", padding: "5px" }}>
               <thead>
                 {console.log(history)}
+
                 {history[0].map((item) => {
                   if (item != "Gdrive URL") return <th>{item}</th>;
                 })}
@@ -309,7 +338,7 @@ function App() {
                   return (
                     <tr style={{ cursor: "pointer" }}>
                       <td>
-                        <button onClick={() => handleClick2(item[8], item[0])}>
+                        <button onClick={() => handleClick2(item[6], item[0])}>
                           {item[0]}
                         </button>
                       </td>
@@ -318,8 +347,8 @@ function App() {
                       <td>{item[3]}</td>
                       <td>{item[4]}</td>
                       <td>{item[5]}</td>
-                      <td>{item[6]}</td>
-                      <td>{item[7]}</td>
+                      {/* <td>{item[6]}</td>
+                      <td>{item[7]}</td> */}
 
                       {/* <td>
                       {idx == 1 ? (
@@ -373,35 +402,55 @@ function App() {
         )}
       </div> */}
       <h3>{tableTitle}</h3>
-      {htmlData != "" && (
-        <table style={{ border: "1px solid black" }}>
-          <thead>
-            {htmlData[0].map((item) => {
-              return <th>{item}</th>;
-            })}
-          </thead>
+      <div className="htmlData">
+        {htmlData != "" && (
+          <>
+            <div className="secondselect">
+              <select
+                style={{ height: "25px" }}
+                className="selectMenu"
+                onChange={(e) => setCurrentSort(e.target.value)}
+              >
+                {htmlData[0].map((item, idex) => {
+                  if (item != "Gdrive URL")
+                    return (
+                      <>
+                        <option key={item}>{item}</option>
+                      </>
+                    );
+                })}
+              </select>
+            </div>
+            <table style={{ border: "1px solid black" }}>
+              <thead>
+                {htmlData[0].map((item) => {
+                  return <th>{item}</th>;
+                })}
+              </thead>
 
-          {htmlData?.map((item, idx) => {
-            if (idx > 0) {
-              return (
-                // <Tooltip title={item}>
-                <tr style={{ cursor: "pointer" }}>
-                  <td>{item[0]}</td>
-                  <td>{item[1]}</td>
-                  <td>{item[2]}</td>
-                  <td>{item[3]}</td>
-                  <td>{item[4]}</td>
-                  <td>{item[5]}</td>
-                  <td>{item[6]}</td>
+              {htmlData?.map((item, idx) => {
+                if (idx > 0) {
+                  return (
+                    // <Tooltip title={item}>
+                    <tr style={{ cursor: "pointer" }}>
+                      <td>{item[0]}</td>
+                      <td>{item[1]}</td>
+                      <td>{item[2]}</td>
+                      <td>{item[3]}</td>
+                      <td>{item[4]}</td>
+                      <td>{item[5]}</td>
+                      {/* <td>{item[6]}</td>
                   <td>{item[7]}</td>
-                  <td>{item[8]}</td>
-                </tr>
-                // </Tooltip>
-              );
-            }
-          })}
-        </table>
-      )}
+                  <td>{item[8]}</td> */}
+                    </tr>
+                    // </Tooltip>
+                  );
+                }
+              })}
+            </table>
+          </>
+        )}
+      </div>
     </div>
   );
 }
