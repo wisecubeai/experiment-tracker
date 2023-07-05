@@ -20,8 +20,7 @@ function App() {
     "Run Date",
     "Score Name",
     "Score",
-    "Optional1",
-    "Optional2",
+    ...fields,
     "Gdrive URL",
   ]);
 
