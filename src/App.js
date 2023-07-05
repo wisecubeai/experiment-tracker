@@ -445,7 +445,7 @@ function App() {
       <div className="htmlData">
         {htmlData != "" && (
           <table style={{ border: "1px solid black", padding: "5px" }}>
-            {columnTitles.map((col, idx) => {
+            {htmlData[0]?.map((col, idx) => {
               return <th>{col}</th>;
             })}
 
