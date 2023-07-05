@@ -63,3 +63,7 @@ td{
 .secondselect{
   padding-left: 675px;
 }
+.topTableContainer{
+  margin: auto;
+  width: 50%;
+}

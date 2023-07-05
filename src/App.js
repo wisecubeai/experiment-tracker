@@ -6,8 +6,8 @@ import parse from "html-react-parser";
 import Papa from "papaparse";
 import Tooltip from "@mui/material/Tooltip";
 import { Button } from "@mui/material";
+import { fields } from "../src/config";
 const csv = require("csvtojson");
-
 function App() {
   let arr = ["ABC", "DEF", "GHI"];
   const [htmlData, setHtmlData] = useState([]);
@@ -15,6 +15,19 @@ function App() {
   const [popUp, setPopUp] = useState("");
   const [tableTitle, setTableTitle] = useState("");
   const [currentSort, setCurrentSort] = useState("Run name");
+  const [columnTitles, setColumnTitles] = useState([
+    "Run Name",
+    "Run Date",
+    "Score Name",
+    "Score",
+    "Optional1",
+    "Optional2",
+    "Gdrive URL",
+  ]);
+
+  const [rowsLength, setRowsLength] = useState(0);
+  const [rowsLengthForTableData, setRowsLengthForTableData] = useState(0);
+  const [dict, setDict] = useState({});
 
   useEffect(() => {
     console.log("sort was changed");
@@ -174,6 +187,7 @@ function App() {
           setHistory(result.data);
           console.log(result.data);
           console.log(htmlData);
+          setRowsLength(result.data.length);
         },
       }
     );
@@ -185,13 +199,14 @@ function App() {
       delimiter: ",",
       complete: (result) => {
         setHtmlData(result.data);
-        console.log(result.data);
+        setRowsLengthForTableData(result.data.length);
         console.log(htmlData);
         setTableTitle(title);
       },
     });
     console.log(e);
   }
+
   function handleClick(e) {
     if (e == "abc") {
       console.log("abc");
@@ -203,8 +218,8 @@ function App() {
           delimiter: ",",
           complete: (result) => {
             setHtmlData(result.data);
-            console.log(result.data);
-            console.log(htmlData);
+            //console.log(result.data);
+            //console.log(htmlData);
             setTableTitle("ABC Table");
           },
         }
@@ -227,8 +242,8 @@ function App() {
               delimiter: ",",
               complete: (result) => {
                 setHtmlData(result.data);
-                console.log(result.data);
-                console.log(htmlData);
+                // console.log(result.data);
+                // console.log(htmlData);
                 setTableTitle("DEF Table");
               },
             }
@@ -245,8 +260,8 @@ function App() {
           delimiter: ",",
           complete: (result) => {
             setHtmlData(result.data);
-            console.log(result.data);
-            console.log(htmlData);
+            //console.log(result.data);
+            //console.log(htmlData);
             setTableTitle("GHI Table");
           },
         }
@@ -270,7 +285,66 @@ function App() {
   // }, []);
   return (
     <div className="App">
-      <h3 style={{ paddingBottom: "50px" }}>History Table</h3>
+      <div className="topTableContainer">
+        <h3 style={{ paddingBottom: "50px" }}>History Table</h3>
+        {history != "" && (
+          <div>
+            <select
+              style={{ height: "25px", marginLeft: "555px" }}
+              className="selectMenu"
+              onChange={(e) => setCurrentSort(e.target.value)}
+            >
+              {history[0]?.map((item, idex) => {
+                if (item != "Gdrive URL")
+                  return (
+                    <>
+                      <option key={item}>{item}</option>
+                    </>
+                  );
+              })}
+            </select>
+          </div>
+        )}
+        {history[0]?.map((item, idx) => {
+          dict[item] = idx;
+        })}
+        {history != "" && (
+          <table style={{ border: "1px solid black", padding: "5px" }}>
+            {columnTitles.map((col, idx) => {
+              return <th>{col}</th>;
+            })}
+
+            {/* {history.map((item, idx) => {
+            return <td>{item[dict["Run Name"]]}</td>;
+          })} */}
+
+            {[...Array(rowsLength - 1)]?.map((e, i) => (
+              <tr key={i}>
+                {columnTitles?.map((col, idx) => {
+                  return (
+                    <td>
+                      {col == "Gdrive URL" ? (
+                        <button
+                          onClick={() =>
+                            handleClick2(
+                              history[i + 1][dict["Gdrive URL"]],
+                              history[i + 1][dict["Run Name"]]
+                            )
+                          }
+                        >
+                          {history[i + 1][dict["Run Name"]]}
+                        </button>
+                      ) : (
+                        history[i + 1][dict[col]]
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </table>
+        )}
+      </div>
 
       {/* <div className="buttons">
           <button
@@ -304,7 +378,8 @@ function App() {
             Fetch GHI
           </button>
         </div> */}
-      <div className="iframe">
+
+      {/* <div className="iframe">
         {history != "" && (
           <>
             <div className="resultsort">
@@ -326,9 +401,8 @@ function App() {
 
             <table style={{ border: "1px solid black", padding: "5px" }}>
               <thead>
-                {console.log(history)}
-
-                {history[0].map((item) => {
+                {history[0].map((item, idx) => {
+                  dict[item] = idx;
                   if (item != "Gdrive URL") return <th>{item}</th>;
                 })}
               </thead>
@@ -347,33 +421,6 @@ function App() {
                       <td>{item[3]}</td>
                       <td>{item[4]}</td>
                       <td>{item[5]}</td>
-                      {/* <td>{item[6]}</td>
-                      <td>{item[7]}</td> */}
-
-                      {/* <td>
-                      {idx == 1 ? (
-                        <button
-                          className="btn"
-                          onClick={() => handleClick("abc")}
-                        >
-                          Fetch ABC
-                        </button>
-                      ) : idx == 2 ? (
-                        <button
-                          className="btn"
-                          onClick={() => handleClick("def")}
-                        >
-                          Fetch DEF
-                        </button>
-                      ) : (
-                        <button
-                          className="btn"
-                          onClick={() => handleClick("GHI")}
-                        >
-                          Fetch GHI
-                        </button>
-                      )}
-                    </td> */}
                     </tr>
                   );
                 }
@@ -381,13 +428,7 @@ function App() {
             </table>
           </>
         )}
-        {/* <iframe
-            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8NgsDs1G5Y57JAWQpmYMlOqIY8Pzi8otdHEKEt_2u9NCcGP1H-x2YFavvgOW0-WvBq63HxjloR1Nk/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"
-            width="100%"
-            title="description"
-            style={{ border: "1px solid black" }}
-          ></iframe> */}
-      </div>
+      </div> */}
       {/* {parse(htmlData)} */}
       {/* <div dangerouslySetInnerHTML={{ __html: htmlData }}></div> */}
       {/* <div className="secondPop">
@@ -403,6 +444,31 @@ function App() {
       </div> */}
       <h3>{tableTitle}</h3>
       <div className="htmlData">
+        {htmlData != "" && (
+          <table style={{ border: "1px solid black", padding: "5px" }}>
+            {columnTitles.map((col, idx) => {
+              return <th>{col}</th>;
+            })}
+
+            {/* {history.map((item, idx) => {
+            return <td>{item[dict["Run Name"]]}</td>;
+          })} */}
+
+            {[...Array(rowsLengthForTableData - 1)]?.map((e, i) => (
+              <tr key={i}>
+                {columnTitles?.map((col, idx) => {
+                  return (
+                    <td>
+                      {col == "Gdrive URL" ? <></> : htmlData[i + 1][dict[col]]}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </table>
+        )}
+      </div>
+      {/* <div className="htmlData">
         {htmlData != "" && (
           <>
             <div className="secondselect">
@@ -431,7 +497,6 @@ function App() {
               {htmlData?.map((item, idx) => {
                 if (idx > 0) {
                   return (
-                    // <Tooltip title={item}>
                     <tr style={{ cursor: "pointer" }}>
                       <td>{item[0]}</td>
                       <td>{item[1]}</td>
@@ -439,18 +504,14 @@ function App() {
                       <td>{item[3]}</td>
                       <td>{item[4]}</td>
                       <td>{item[5]}</td>
-                      {/* <td>{item[6]}</td>
-                  <td>{item[7]}</td>
-                  <td>{item[8]}</td> */}
                     </tr>
-                    // </Tooltip>
                   );
                 }
               })}
             </table>
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

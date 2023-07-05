@@ -1,1 +1,1 @@
-let fields = ["Run name", "Score", "Sparqldata"]; // enter fields in here
+export const fields = ["Optional1", "Optional2"]; // enter fields in here
