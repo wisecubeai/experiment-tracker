@@ -23,10 +23,18 @@ function App() {
     ...fields,
     "Gdrive URL",
   ]);
+  const [secondColTitles, setSecondColTitles] = useState([
+    "ID",
+    "Input",
+    "Result",
+    "Label",
+    ...fields,
+  ]);
 
   const [rowsLength, setRowsLength] = useState(0);
   const [rowsLengthForTableData, setRowsLengthForTableData] = useState(0);
   const [dict, setDict] = useState({});
+  const [dict2, setDict2] = useState({});
 
   useEffect(() => {
     console.log("sort was changed");
@@ -285,11 +293,11 @@ function App() {
   return (
     <div className="App">
       <div className="topTableContainer">
-        <h3 style={{ paddingBottom: "50px" }}>History Table</h3>
+        <h3 style={{ paddingBottom: "50px" }}>Runs Table</h3>
         {history != "" && (
           <div>
             <select
-              style={{ height: "25px", marginLeft: "555px" }}
+              style={{ height: "25px", marginLeft: "558px" }}
               className="selectMenu"
               onChange={(e) => setCurrentSort(e.target.value)}
             >
@@ -442,10 +450,35 @@ function App() {
         )}
       </div> */}
       <h3>{tableTitle}</h3>
-      <div className="htmlData">
+      <div className="htmlData" style={{ position: "relative" }}>
+        {htmlData != "" && (
+          <div>
+            <select
+              style={{
+                height: "25px",
+                marginLeft: "750px",
+              }}
+              className="selectMenu"
+              onChange={(e) => setCurrentSort(e.target.value)}
+            >
+              {secondColTitles.map((item, idex) => {
+                return (
+                  <>
+                    <option key={item}>{item}</option>
+                  </>
+                );
+              })}
+            </select>
+          </div>
+        )}
+        {/* {console.log(fields)} */}
+        {htmlData[0]?.map((item, idx) => {
+          dict2[item] = idx;
+        })}
+        {/* {console.log(dict2)} */}
         {htmlData != "" && (
           <table style={{ border: "1px solid black", padding: "5px" }}>
-            {htmlData[0]?.map((col, idx) => {
+            {secondColTitles.map((col, idx) => {
               return <th>{col}</th>;
             })}
 
@@ -455,12 +488,9 @@ function App() {
 
             {[...Array(rowsLengthForTableData - 1)]?.map((e, i) => (
               <tr key={i}>
-                {columnTitles?.map((col, idx) => {
-                  return (
-                    <td>
-                      {col == "Gdrive URL" ? <></> : htmlData[i + 1][dict[col]]}
-                    </td>
-                  );
+                {secondColTitles?.map((col, idx) => {
+                  //console.log(htmlData[i + 1][dict2[col]]);
+                  return <td>{htmlData[i + 1][dict2[col]]}</td>;
                 })}
               </tr>
             ))}
