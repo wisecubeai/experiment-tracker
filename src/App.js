@@ -7,7 +7,9 @@ import Papa from "papaparse";
 import Tooltip from "@mui/material/Tooltip";
 import { Button } from "@mui/material";
 import { fields } from "../src/config";
+import logo1 from "../src/images/Wisecube-icon-no-text.jpg";
 const csv = require("csvtojson");
+
 function App() {
   let arr = ["ABC", "DEF", "GHI"];
   const [htmlData, setHtmlData] = useState([]);
@@ -292,6 +294,12 @@ function App() {
   // }, []);
   return (
     <div className="App">
+      <img
+        style={{ position: "absolute", top: "0", left: "0" }}
+        src={logo1}
+        height={"100px"}
+        width={"100px"}
+      ></img>
       <div className="topTableContainer">
         <h3 style={{ paddingBottom: "50px" }}>Runs Table</h3>
         {history != "" && (
