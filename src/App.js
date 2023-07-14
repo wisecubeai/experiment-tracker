@@ -7,6 +7,8 @@ import Papa from "papaparse";
 import Tooltip from "@mui/material/Tooltip";
 import { Button } from "@mui/material";
 import { fields } from "../src/config";
+import { fields2 } from "../src/config";
+import { csvFile } from "../src/config";
 import logo1 from "../src/images/Wisecube-icon-no-text.jpg";
 const csv = require("csvtojson");
 
@@ -30,7 +32,7 @@ function App() {
     "Input",
     "Result",
     "Label",
-    ...fields,
+    ...fields2,
   ]);
 
   const [rowsLength, setRowsLength] = useState(0);
@@ -149,6 +151,23 @@ function App() {
       newHistory.unshift(first);
       setHistory(newHistory);
     }
+    if (currentSort == "ID") {
+      console.log("current sort is in ID");
+      let newHtmlData = [...htmlData];
+      let first = newHtmlData.shift();
+      console.log(newHtmlData);
+      newHtmlData.sort((a, b) => {
+        if (a[0] > b[0]) {
+          return 1;
+        } else if (b[0] > a[0]) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      newHtmlData.unshift(first);
+      setHistory(newHtmlData);
+    }
   }, [currentSort]);
   const sortTypes = {
     up: {
@@ -187,19 +206,16 @@ function App() {
   };
   useEffect(() => {
     // https://docs.google.com/spreadsheets/d/e/2PACX-1vT8NgsDs1G5Y57JAWQpmYMlOqIY8Pzi8otdHEKEt_2u9NCcGP1H-x2YFavvgOW0-WvBq63HxjloR1Nk/pub?gid=0&single=true&output=csv
-    Papa.parse(
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQJXRBvOng-beOsnaTG4Ak4YFDVaacwLx0_Cl3t5g_1L7Q_GL3VDz2ghRgKcwkG1hQJDtSQm5fIBvXv/pub?output=csv",
-      {
-        download: true,
-        delimiter: ",",
-        complete: (result) => {
-          setHistory(result.data);
-          console.log(result.data);
-          console.log(htmlData);
-          setRowsLength(result.data.length);
-        },
-      }
-    );
+    Papa.parse(csvFile, {
+      download: true,
+      delimiter: ",",
+      complete: (result) => {
+        setHistory(result.data);
+        console.log(result.data);
+        console.log(htmlData);
+        setRowsLength(result.data.length);
+      },
+    });
   }, []);
   function handleClick2(e, title) {
     console.log(e);
