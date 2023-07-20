@@ -85,48 +85,15 @@ function App() {
       });
       newHistory.unshift(first);
       setHistory(newHistory);
-    } else if (currentSort == "Number of questions") {
+    } else if (currentSort == "Score Name") {
       console.log("current sort is in number of question");
       let newHistory = [...history];
       let first = newHistory.shift();
       console.log(newHistory);
       newHistory.sort((a, b) => {
-        if (Number(a[3]) < Number(b[3])) {
+        if (b[2] < a[2]) {
           return 1;
-        } else if (Number(b[3]) < Number(a[3])) {
-          return -1;
-        } else {
-          return 0;
-        }
-      });
-      newHistory.unshift(first);
-      setHistory(newHistory);
-    } else if (currentSort == "Number w/ Valid SPARQL") {
-      console.log("current sort is in Number w/ Valid SPARQL");
-      let newHistory = [...history];
-      let first = newHistory.shift();
-      console.log(newHistory);
-      newHistory.sort((a, b) => {
-        if (Number(a[4]) < Number(b[4])) {
-          return 1;
-        } else if (Number(b[4]) < Number(a[4])) {
-          return -1;
-        } else {
-          return 0;
-        }
-      });
-      newHistory.unshift(first);
-      setHistory(newHistory);
-      console.log(history);
-    } else if (currentSort == "Number w/ Reasonable Results") {
-      console.log("current sort is in Number w/ Reasonable Results");
-      let newHistory = [...history];
-      let first = newHistory.shift();
-      console.log(newHistory);
-      newHistory.sort((a, b) => {
-        if (Number(a[5]) < Number(b[5])) {
-          return 1;
-        } else if (Number(b[5]) > Number(a[5])) {
+        } else if (a[2] < b[2]) {
           return -1;
         } else {
           return 0;
@@ -157,16 +124,32 @@ function App() {
       let first = newHtmlData.shift();
       console.log(newHtmlData);
       newHtmlData.sort((a, b) => {
-        if (a[0] > b[0]) {
+        if (Number(a[0]) > Number(b[0])) {
           return 1;
-        } else if (b[0] > a[0]) {
+        } else if (Number(b[0]) > Number(a[0])) {
           return -1;
         } else {
           return 0;
         }
       });
       newHtmlData.unshift(first);
-      setHistory(newHtmlData);
+      setHtmlData(newHtmlData);
+    } else if (currentSort == "Label") {
+      console.log("current sort is in ID");
+      let newHtmlData = [...htmlData];
+      let first = newHtmlData.shift();
+      console.log(newHtmlData);
+      newHtmlData.sort((a, b) => {
+        if (a[3] > b[3]) {
+          return 1;
+        } else if (b[3] > a[3]) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      newHtmlData.unshift(first);
+      setHtmlData(newHtmlData);
     }
   }, [currentSort]);
   const sortTypes = {
