@@ -204,6 +204,8 @@ function App() {
   }, []);
   function handleClick2(e, title) {
     console.log(e);
+    setTableTitle(title);
+    setHtmlData([]);
     Papa.parse(e, {
       download: true,
       delimiter: ",",
@@ -211,7 +213,6 @@ function App() {
         setHtmlData(result.data);
         setRowsLengthForTableData(result.data.length);
         console.log(htmlData);
-        setTableTitle(title);
       },
     });
     console.log(e);
@@ -464,58 +465,68 @@ function App() {
         )}
       </div> */}
       <h3>{tableTitle}</h3>
-      <div className="htmlData" style={{ position: "relative" }}>
-        {htmlData != "" && (
-          <select
-            className="selectMenu"
-            onChange={(e) => setCurrentSort(e.target.value)}
-          >
-            {secondColTitles.map((item, idex) => {
-              return (
-                <>
-                  <option key={item}>{item}</option>
-                </>
-              );
-            })}
-          </select>
-        )}
-        {/* {console.log(fields)} */}
-        {htmlData[0]?.map((item, idx) => {
-          dict2[item] = idx;
-        })}
-        {/* {console.log(dict2)} */}
-        {htmlData != "" && (
-          <table style={{ border: "1px solid black", padding: "5px" }}>
-            {secondColTitles.map((col, idx) => {
-              return <th>{col}</th>;
-            })}
-            {secondColTitles.map((col, idx) => {
-              return <th>{col}</th>;
-            })}
+      {tableTitle && (
+        <div className="topTableContainer">
+          {htmlData?.length ? (
+            <select
+              className="selectMenu"
+              onChange={(e) => setCurrentSort(e.target.value)}
+            >
+              {secondColTitles.map((item, idex) => {
+                return (
+                  <>
+                    <option key={item}>{item}</option>
+                  </>
+                );
+              })}
+            </select>
+          ) : null}
+          {/* {console.log(fields)} */}
+          {htmlData[0]?.map((item, idx) => {
+            dict2[item] = idx;
+          })}
+          <div class="table-container">
+            {!htmlData.length && (
+              <>
+                <h2>Loading</h2>
+                <img className="loading" src={Loading} alt="loading" />
+              </>
+            )}
+            {/* {console.log(dict2)} */}
+            {htmlData.length ? (
+              <table>
+                {secondColTitles.map((col, idx) => {
+                  return <th>{col}</th>;
+                })}
+                {secondColTitles.map((col, idx) => {
+                  return <th>{col}</th>;
+                })}
 
-            {/* {history.map((item, idx) => {
+                {/* {history.map((item, idx) => {
             return <td>{item[dict["Run Name"]]}</td>;
           })} */}
 
-            {[...Array(rowsLengthForTableData - 1)]?.map((e, i) => (
-              <tr key={i}>
-                {secondColTitles?.map((col, idx) => {
-                  //console.log(htmlData[i + 1][dict2[col]]);
-                  return <td>{htmlData[i + 1][dict2[col]]}</td>;
-                })}
-              </tr>
-            ))}
-            {[...Array(rowsLengthForTableData - 1)]?.map((e, i) => (
-              <tr key={i}>
-                {secondColTitles?.map((col, idx) => {
-                  //console.log(htmlData[i + 1][dict2[col]]);
-                  return <td>{htmlData[i + 1][dict2[col]]}</td>;
-                })}
-              </tr>
-            ))}
-          </table>
-        )}
-      </div>
+                {[...Array(rowsLengthForTableData - 1)]?.map((e, i) => (
+                  <tr key={i}>
+                    {secondColTitles?.map((col, idx) => {
+                      //console.log(htmlData[i + 1][dict2[col]]);
+                      return <td>{htmlData[i + 1][dict2[col]]}</td>;
+                    })}
+                  </tr>
+                ))}
+                {[...Array(rowsLengthForTableData - 1)]?.map((e, i) => (
+                  <tr key={i}>
+                    {secondColTitles?.map((col, idx) => {
+                      //console.log(htmlData[i + 1][dict2[col]]);
+                      return <td>{htmlData[i + 1][dict2[col]]}</td>;
+                    })}
+                  </tr>
+                ))}
+              </table>
+            ) : null}
+          </div>
+        </div>
+      )}
       {/* <div className="htmlData">
         {htmlData != "" && (
           <>
