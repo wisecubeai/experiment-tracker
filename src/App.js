@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+import "./normalize.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
@@ -10,6 +11,7 @@ import { fields } from "../src/config";
 import { fields2 } from "../src/config";
 import { csvFile } from "../src/config";
 import logo1 from "../src/images/Wisecube-icon-no-text.jpg";
+import Loading from "./images/loading.gif";
 const csv = require("csvtojson");
 
 function App() {
@@ -299,65 +301,70 @@ function App() {
         height={"100px"}
         width={"100px"}
       ></img>
+      <h3 style={{ paddingBottom: "50px" }}>Runs Table</h3>
       <div className="topTableContainer">
-        <h3 style={{ paddingBottom: "50px" }}>Runs Table</h3>
-        {history != "" && (
-          <div>
-            <select
-              style={{ height: "25px", marginLeft: "558px" }}
-              className="selectMenu"
-              onChange={(e) => setCurrentSort(e.target.value)}
-            >
-              {history[0]?.map((item, idex) => {
-                if (item != "Gdrive URL")
-                  return (
-                    <>
-                      <option key={item}>{item}</option>
-                    </>
-                  );
-              })}
-            </select>
-          </div>
-        )}
+        {history.length ? (
+          <select
+            className="selectMenu"
+            onChange={(e) => setCurrentSort(e.target.value)}
+          >
+            {history[0]?.map((item, idex) => {
+              if (item != "Gdrive URL")
+                return (
+                  <>
+                    <option key={item}>{item}</option>
+                  </>
+                );
+            })}
+          </select>
+        ) : null}
         {history[0]?.map((item, idx) => {
           dict[item] = idx;
         })}
-        {history != "" && (
-          <table style={{ border: "1px solid black", padding: "5px" }}>
-            {columnTitles.map((col, idx) => {
-              return <th>{col}</th>;
-            })}
+        <div class="table-container">
+          {!history.length && (
+            <>
+              <h2>Loading</h2>
+              <img className="loading" src={Loading} alt="loading" />
+            </>
+          )}
+          {history.length ? (
+            <table>
+              {columnTitles.map((col, idx) => {
+                return <th>{col}</th>;
+              })}
 
-            {/* {history.map((item, idx) => {
+              {/* {history.map((item, idx) => {
             return <td>{item[dict["Run Name"]]}</td>;
           })} */}
 
-            {[...Array(rowsLength - 1)]?.map((e, i) => (
-              <tr key={i}>
-                {columnTitles?.map((col, idx) => {
-                  return (
-                    <td>
-                      {col == "Gdrive URL" ? (
-                        <button
-                          onClick={() =>
-                            handleClick2(
-                              history[i + 1][dict["Gdrive URL"]],
-                              history[i + 1][dict["Run Name"]]
-                            )
-                          }
-                        >
-                          {history[i + 1][dict["Run Name"]]}
-                        </button>
-                      ) : (
-                        history[i + 1][dict[col]]
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </table>
-        )}
+              {[...Array(rowsLength - 1)]?.map((e, i) => (
+                <tr key={i}>
+                  {columnTitles?.map((col, idx) => {
+                    return (
+                      <td>
+                        {col == "Gdrive URL" ? (
+                          <button
+                            onClick={() =>
+                              handleClick2(
+                                history[i + 1][dict["Gdrive URL"]],
+                                history[i + 1][dict["Run Name"]]
+                              )
+                            }
+                          >
+                            {history[i + 1][dict["Run Name"]]}
+                          </button>
+                        ) : (
+                          history[i + 1][dict[col]]
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </table>
+          ) : null}
+        </div>
       </div>
 
       {/* <div className="buttons">
@@ -459,24 +466,18 @@ function App() {
       <h3>{tableTitle}</h3>
       <div className="htmlData" style={{ position: "relative" }}>
         {htmlData != "" && (
-          <div>
-            <select
-              style={{
-                height: "25px",
-                marginLeft: "750px",
-              }}
-              className="selectMenu"
-              onChange={(e) => setCurrentSort(e.target.value)}
-            >
-              {secondColTitles.map((item, idex) => {
-                return (
-                  <>
-                    <option key={item}>{item}</option>
-                  </>
-                );
-              })}
-            </select>
-          </div>
+          <select
+            className="selectMenu"
+            onChange={(e) => setCurrentSort(e.target.value)}
+          >
+            {secondColTitles.map((item, idex) => {
+              return (
+                <>
+                  <option key={item}>{item}</option>
+                </>
+              );
+            })}
+          </select>
         )}
         {/* {console.log(fields)} */}
         {htmlData[0]?.map((item, idx) => {
@@ -488,11 +489,22 @@ function App() {
             {secondColTitles.map((col, idx) => {
               return <th>{col}</th>;
             })}
+            {secondColTitles.map((col, idx) => {
+              return <th>{col}</th>;
+            })}
 
             {/* {history.map((item, idx) => {
             return <td>{item[dict["Run Name"]]}</td>;
           })} */}
 
+            {[...Array(rowsLengthForTableData - 1)]?.map((e, i) => (
+              <tr key={i}>
+                {secondColTitles?.map((col, idx) => {
+                  //console.log(htmlData[i + 1][dict2[col]]);
+                  return <td>{htmlData[i + 1][dict2[col]]}</td>;
+                })}
+              </tr>
+            ))}
             {[...Array(rowsLengthForTableData - 1)]?.map((e, i) => (
               <tr key={i}>
                 {secondColTitles?.map((col, idx) => {
