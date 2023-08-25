@@ -1,3 +1,24 @@
+# Getting started with configuration
+
+## How to publish Google Sheets as CSV
+
+Navigate to your google spreadsheet runs table, and simply click File => Share => Publish to web
+
+Select one sheet, not the Entire Document
+
+Select the comma separated value (CSV) from the list and copy the link
+
+IMPORTANT: For each run in the runs table, be sure to add the CSV under the "GdriveURL" link
+
+## Config.js File
+
+Navigate to config.js file, and copy and paste your cvs file for the runs table into "runsTableCsvFile". 
+
+Additionally, add your optional fields for the runs table in "optionalFieldsForRunsTable". 
+
+For the results table, add your optional fields in the "optionalFieldsForResultsTable".
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
