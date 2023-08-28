@@ -8,11 +8,11 @@ Select one sheet, not the Entire Document
 
 Select the comma separated value (CSV) from the list and copy the link
 
-IMPORTANT: For each run in the runs table, be sure to add the CSV under the "GdriveURL" link
+IMPORTANT: For each run in the runs table, be sure to add the CSV under the "GdriveURL" link. Also make sure that the date format is (mm/dd/yyyy)
 
 ## Config.js File
 
-Navigate to config.js file, and copy and paste your cvs file for the runs table into "runsTableCsvFile". 
+Navigate to config.js file, and copy and paste your CSV file for the runs table into "runsTableCsvFile". 
 
 Additionally, add your optional fields for the runs table in "optionalFieldsForRunsTable". 
 
