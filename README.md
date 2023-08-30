@@ -4,13 +4,19 @@
 
 Navigate to your google spreadsheet runs table, and simply click File => Share => Publish to web
 
+<img width="650" alt="Screen Shot 2023-08-25 at 2 30 12 PM" src="https://github.com/wisecubeai/experiment-tracker/assets/36089262/fe84eaad-b46f-4ffb-a504-eb138f32924c">
+
 Select one sheet, not the Entire Document
 
 Select the comma separated value (CSV) from the list and copy the link
 
+<img width="574" alt="Screen Shot 2023-08-30 at 1 20 45 PM" src="https://github.com/wisecubeai/experiment-tracker/assets/36089262/38adfd03-e098-47e8-8bb1-c39af480cc73">
+
 IMPORTANT: For each run in the runs table, be sure to add the CSV under the "GdriveURL" link. Also make sure that the date format is (mm/dd/yyyy)
 
-<img width="1074" alt="Screen Shot 2023-08-25 at 2 30 12 PM" src="https://github.com/wisecubeai/experiment-tracker/assets/36089262/fe84eaad-b46f-4ffb-a504-eb138f32924c">
+<img width="1076" alt="Screen Shot 2023-08-30 at 1 22 30 PM" src="https://github.com/wisecubeai/experiment-tracker/assets/36089262/6406b9b8-e6b1-43ad-bfcb-fbf3d07c7bd9">
+
+
 
 ## Config.js File
 
