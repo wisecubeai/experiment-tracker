@@ -10,6 +10,8 @@ Select the comma separated value (CSV) from the list and copy the link
 
 IMPORTANT: For each run in the runs table, be sure to add the CSV under the "GdriveURL" link. Also make sure that the date format is (mm/dd/yyyy)
 
+<img width="1074" alt="Screen Shot 2023-08-25 at 2 30 12 PM" src="https://github.com/wisecubeai/experiment-tracker/assets/36089262/fe84eaad-b46f-4ffb-a504-eb138f32924c">
+
 ## Config.js File
 
 Navigate to config.js file, and copy and paste your CSV file for the runs table into "runsTableCsvFile". 
@@ -17,6 +19,9 @@ Navigate to config.js file, and copy and paste your CSV file for the runs table 
 Additionally, add your optional fields for the runs table in "optionalFieldsForRunsTable". 
 
 For the results table, add your optional fields in the "optionalFieldsForResultsTable".
+
+
+<img width="647" alt="Screen Shot 2023-08-07 at 1 06 16 PM" src="https://github.com/wisecubeai/experiment-tracker/assets/36089262/b9b5fd3c-408b-42ef-b80c-fceadd5c8647">
 
 
 # Getting Started with Create React App
