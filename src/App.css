@@ -83,7 +83,6 @@ td {
 }
 .topTableContainer table {
   width: 100%;
-  display: block;
 }
 .topTableContainer table th,
 .topTableContainer table td {
